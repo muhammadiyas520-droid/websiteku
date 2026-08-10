@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arsip Priangan — Hikayat Tiga Sahabat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Spectral:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE3CB;
+    --paper-2:#E4D6AF;
+    --ink:#2B2118;
+    --ink-soft:#5A4632;
+    --indigo:#26415A;
+    --rust:#9A3324;
+    --gold:#A9812F;
+    --line: rgba(43,33,24,0.22);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral', serif;
+    line-height:1.65;
+    position:relative;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:1;
+    mix-blend-mode:multiply;
+  }
+  h1,h2,h3,.stamp,.eyebrow{font-family:'Fraunces', serif;}
+  .mono{font-family:'Courier Prime', monospace;}
+  a{color:var(--indigo);}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+
+  /* HERO */
+  header.hero{
+    padding:64px 0 48px;
+    border-bottom:2px solid var(--ink);
+    position:relative;
+  }
+  .archive-tag{
+    font-family:'Courier Prime',monospace;
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:36px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+  }
+  .hero-title{
+    font-size:clamp(40px,7vw,72px);
+    font-weight:600;
+    line-height:1.02;
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+  .hero-sub{
+    font-style:italic;
+    font-size:19px;
+    color:var(--ink-soft);
+    margin:0 0 30px;
+    max-width:560px;
+  }
+  .hero-meta{
+    display:flex;
+    gap:34px;
+    flex-wrap:wrap;
+    align-items:flex-end;
+  }
+  .seal{
+    width:96px;height:96px;
+    border-radius:50%;
+    border:2px solid var(--rust);
+    display:flex;align-items:center;justify-content:center;
+    flex-direction:column;
+    color:var(--rust);
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    text-align:center;
+    transform:rotate(-8deg);
+    flex-shrink:0;
+    position:relative;
+  }
+  .seal::before{
+    content:"";
+    position:absolute; inset:6px;
+    border:1px dashed var(--rust);
+    border-radius:50%;
+    opacity:.6;
+  }
+  .seal span{display:block;font-size:10px;letter-spacing:.08em;}
+  .seal strong{font-size:15px;}
+
+  .disclaimer{
+    margin-top:28px;
+    font-family:'Courier Prime',monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:rgba(43,33,24,0.05);
+    border-left:3px solid var(--rust);
+    padding:12px 16px;
+    max-width:640px;
+  }
+
+  /* SECTION GENERIC */
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--rust);
+    margin:0 0 8px;
+    font-weight:600;
+  }
+  section h2{
+    font-size:clamp(26px,4vw,36px);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  section > p.lead{
+    max-width:640px;
+    color:var(--ink-soft);
+    font-size:17px;
+  }
+
+  /* RELASI DIAGRAM */
+  .relasi-svg{width:100%;height:auto;margin-top:20px;}
+  .relasi-label{font-family:'Courier Prime',monospace;font-size:11px;fill:var(--ink-soft);}
+
+  /* FILES / CARDS */
+  .files{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+    margin-top:34px;
+  }
+  @media (max-width:760px){ .files{grid-template-columns:1fr;} }
+
+  .file-card{
+    background:var(--paper-2);
+    border:1px solid var(--ink);
+    position:relative;
+    padding:26px 22px 24px;
+    clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);
+    transition:transform .25s ease;
+  }
+  .file-card:hover{transform:translateY(-4px);}
+  .file-tab{
+    position:absolute;
+    top:-14px; left:20px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Courier Prime',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    padding:4px 10px;
+    text-transform:uppercase;
+  }
+  .file-card h3{
+    font-size:26px;
+    margin:14px 0 2px;
+    font-weight:600;
+  }
+  .file-card .fullname{
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 14px;
+  }
+  .file-meta{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Courier Prime',monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    border-top:1px dashed var(--line);
+    border-bottom:1px dashed var(--line);
+    padding:8px 0;
+    margin-bottom:14px;
+  }
+  .file-card p.bio{font-size:15px;margin:0 0 14px;}
+  .badge-role{
+    display:inline-block;
+    font-family:'Courier Prime',monospace;
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--indigo);
+    border:1px solid var(--indigo);
+    padding:3px 9px;
+    margin-bottom:14px;
+  }
+  .mini-seal{
+    position:absolute;
+    bottom:16px; right:18px;
+    font-family:'Fraunces',serif;
+    font-size:10px;
+    letter-spacing:.06em;
+    color:var(--rust);
+    border:1px solid var(--rust);
+    padding:3px 8px;
+    transform:rotate(-4deg);
+    opacity:.85;
+  }
+
+  /* TIMELINE */
+  .timeline{margin-top:38px;position:relative;padding-left:26px;}
+  .timeline::before{
+    content:"";
+    position:absolute;left:5px;top:4px;bottom:4px;
+    width:1px;background:var(--ink);
+  }
+  .tl-item{position:relative;padding-bottom:34px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:"";
+    position:absolute;left:-26px;top:4px;
+    width:9px;height:9px;
+    background:var(--rust);
+    border-radius:50%;
+    border:2px solid var(--paper);
+    outline:1px solid var(--rust);
+  }
+  .tl-year{
+    font-family:'Courier Prime',monospace;
+    font-size:13px;
+    color:var(--rust);
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .tl-item h4{margin:0 0 6px;font-size:19px;font-weight:600;}
+  .tl-item p{margin:0;color:var(--ink-soft);font-size:15.5px;max-width:600px;}
+
+  /* FOOTER */
+  footer{
+    padding:44px 0 60px;
+    text-align:center;
+  }
+  footer .stamp{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  footer .fine{
+    font-family:'Courier Prime',monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin:14px auto 0;
+    opacity:.85;
+  }
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.show{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none;opacity:1;transform:none;}
+    .file-card{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="archive-tag">
+      <span>Arsip Priangan · Berkas No. 1878/CJR</span>
+      <span>Cianjur, Hindia Belanda</span>
+    </div>
+    <h1 class="hero-title">Hikayat Tiga<br>Sahabat</h1>
+    <p class="hero-sub">Catatan fiksi tentang Mail, Aceng, dan Kokoh — tiga anak muda dari lereng Priangan yang jalan hidupnya bersilangan pada penghujung abad ke-19.</p>
+    <div class="hero-meta">
+      <div class="seal"><span>arsip</span><strong>fiksi</strong><span>1878–1891</span></div>
+      <p style="max-width:340px;font-size:14px;color:var(--ink-soft);margin:0;">Disusun kembali dari cerita tutur yang diolah menjadi narasi utuh untuk keperluan pembacaan ringan.</p>
+    </div>
+    <div class="disclaimer">
+      CATATAN ARSIPARIS — Seluruh nama, tokoh, dan peristiwa dalam berkas ini adalah <strong>fiksi sejarah</strong>. Latar zaman dan suasana Priangan abad ke-19 digunakan sebagai bingkai cerita, bukan catatan sejarah yang sebenarnya.
+    </div>
+  </header>
+
+  <section class="reveal" id="pengantar">
+    <p class="eyebrow">Pengantar Berkas</p>
+    <h2>Tiga jalan yang bertemu di satu kampung</h2>
+    <p class="lead">Di sebuah kampung di kaki gunung, tak jauh dari jalan raya pos yang membelah Priangan, tiga pemuda dengan latar yang jauh berbeda tumbuh berdampingan. Satu mengandalkan otot dan keberanian, satu mewarisi ilmu titisan leluhur, satu lagi membawa jaringan dagang dari pesisir. Kisah mereka bukan tentang kepahlawanan besar, melainkan tentang persahabatan yang diuji oleh zaman yang sedang berubah cepat.</p>
+  </section>
+
+  <section class="reveal" id="berkas">
+    <p class="eyebrow">Berkas Perorangan</p>
+    <h2>Tiga catatan, tiga jalan hidup</h2>
+    <p class="lead">Setiap berkas berikut disusun seolah catatan arsip kampung: nama, peran, dan ringkasan riwayat.</p>
+
+    <div class="files">
+
+      <article class="file-card">
+        <span class="file-tab">Berkas 01</span>
+        <span class="badge-role">Jawara kampung</span>
+        <h3>Mail</h3>
+        <p class="fullname">Ismail bin Wira, dipanggil "Mail"</p>
+        <div class="file-meta"><span>l. 1861, Cianjur</span><span>w. 1889*</span></div>
+        <p class="bio">Anak seorang penggarap sawah yang sejak kecil dilatih pencak silat oleh pamannya. Mail dikenal sebagai penjaga tak resmi kampungnya, sering turun tangan saat mandor perkebunan bertindak sewenang-wenang terhadap buruh. Ia pendiam, tapi namanya disebut orang jauh sebelum wajahnya dikenal.</p>
+        <span class="mini-seal">terverifikasi*</span>
+      </article>
+
+      <article class="file-card">
+        <span class="file-tab">Berkas 02</span>
+        <span class="badge-role">Tabib kampung</span>
+        <h3>Aceng</h3>
+        <p class="fullname">Acep Wangsakusuma, dipanggil "Aceng"</p>
+        <div class="file-meta"><span>l. 1859, Cianjur</span><span>w. 1902*</span></div>
+        <p class="bio">Diturunkan dari garis tabib keluarga, Aceng menghafal ratusan nama tanaman obat sebelum ia genap sepuluh tahun. Ia dipercaya warga untuk meracik jamu sekaligus menjadi penengah ketika sengketa kampung memanas. Rumahnya selalu terbuka bagi siapa pun yang datang, kaya maupun miskin.</p>
+        <span class="mini-seal">terverifikasi*</span>
+      </article>
+
+      <article class="file-card">
+        <span class="file-tab">Berkas 03</span>
+        <span class="badge-role">Pedagang peranakan</span>
+        <h3>Kokoh</h3>
+        <p class="fullname">Kho Liong Kok, dipanggil "Kokoh"</p>
+        <div class="file-meta"><span>l. 1860, Cianjur</span><span>w. 1911*</span></div>
+        <p class="bio">Putra pemilik kedai di dekat pasar, Kokoh dibesarkan di antara dua dunia — rumah berbahasa Hokkian dan pasar berbahasa Sunda. Ia mewarisi kedai keluarganya dan memperluas jaringan dagang hingga ke kota-kota pesisir, menjadikannya penghubung penting antara kampung dan dunia luar.</p>
+        <span class="mini-seal">terverifikasi*</span>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="reveal" id="relasi">
+    <p class="eyebrow">Peta Relasi</p>
+    <h2>Bagaimana ketiganya terhubung</h2>
+    <p class="lead">Persahabatan mereka terbentuk bukan lewat kebetulan, melainkan lewat kebutuhan yang saling melengkapi.</p>
+
+    <svg class="relasi-svg" viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg">
+      <line x1="150" y1="90" x2="550" y2="90" stroke="#2B2118" stroke-width="1"/>
+      <line x1="150" y1="90" x2="350" y2="300" stroke="#2B2118" stroke-width="1"/>
+      <line x1="550" y1="90" x2="350" y2="300" stroke="#2B2118" stroke-width="1"/>
+
+      <text class="relasi-label" x="300" y="80" text-anchor="middle">sahabat sejak kanak-kanak, 1870</text>
+      <text class="relasi-label" x="200" y="210" text-anchor="middle" transform="rotate(-52 200 210)">pasien &amp; tabib kepercayaan</text>
+      <text class="relasi-label" x="500" y="210" text-anchor="middle" transform="rotate(52 500 210)">menitipkan hasil ladang untuk dijual</text>
+
+      <circle cx="150" cy="90" r="42" fill="#E4D6AF" stroke="#9A3324" stroke-width="1.5"/>
+      <text x="150" y="86" text-anchor="middle" font-family="Fraunces, serif" font-weight="600" font-size="17" fill="#2B2118">Mail</text>
+      <text x="150" y="104" text-anchor="middle" class="relasi-label">jawara</text>
+
+      <circle cx="550" cy="90" r="42" fill="#E4D6AF" stroke="#9A3324" stroke-width="1.5"/>
+      <text x="550" y="86" text-anchor="middle" font-family="Fraunces, serif" font-weight="600" font-size="17" fill="#2B2118">Kokoh</text>
+      <text x="550" y="104" text-anchor="middle" class="relasi-label">pedagang</text>
+
+      <circle cx="350" cy="300" r="42" fill="#E4D6AF" stroke="#9A3324" stroke-width="1.5"/>
+      <text x="350" y="296" text-anchor="middle" font-family="Fraunces, serif" font-weight="600" font-size="17" fill="#2B2118">Aceng</text>
+      <text x="350" y="314" text-anchor="middle" class="relasi-label">tabib</text>
+    </svg>
+  </section>
+
+  <section class="reveal" id="linimasa">
+    <p class="eyebrow">Linimasa Fiksi</p>
+    <h2>Riwayat singkat 1861–1891</h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">1859–1861</div>
+        <h4>Tiga kelahiran, satu kampung</h4>
+        <p>Aceng lahir lebih dahulu, disusul Kokoh, lalu Mail. Ketiganya tumbuh dalam jarak beberapa rumah, di kampung yang diapit sawah dan jalan raya pos peninggalan sistem tanam paksa.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1870</div>
+        <h4>Perkenalan di pasar kampung</h4>
+        <p>Mail menolong Kokoh kecil dari gangguan anak-anak pasar; Aceng yang kebetulan lewat mengobati luka Kokoh. Sejak hari itu ketiganya tak terpisahkan.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1878</div>
+        <h4>Ikrar persahabatan</h4>
+        <p>Di usia remaja, ketiganya berikrar saling menjaga: Mail menjaga keamanan, Aceng menjaga kesehatan warga, Kokoh menjaga jalannya perniagaan kampung.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1883</div>
+        <h4>Musim bencana</h4>
+        <p>Ketika kabar letusan gunung di Selat Sunda membuat langit gelap berhari-hari dan warga panik, ketiganya turun bersama menenangkan kampung, membagi persediaan pangan, dan merawat yang sakit.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1891</div>
+        <h4>Jalan yang berpisah</h4>
+        <p>Mail tetap menjaga kampung hingga tua, Aceng mewariskan ilmunya pada murid-murid baru, dan Kokoh memperluas kedainya hingga ke kota. Namun menurut cerita tutur, mereka tetap bertemu setiap purnama di beranda rumah Aceng.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="stamp">— akhir berkas —</p>
+    <p class="fine">Situs ini menyajikan hikayat fiksi bergaya arsip sejarah. Nama tempat dan suasana zaman dipakai sebagai latar cerita; tokoh dan peristiwa spesifik tidak merujuk pada catatan sejarah nyata.</p>
+  </footer>
+
+</div>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+    });
+  },{threshold:0.15});
+  els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
